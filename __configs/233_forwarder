@@ -1,0 +1,10 @@
+# /etc/exim4/conf.d/router/233_forwarder
+db_fwd:
+    driver = redirect
+    data   = ${lookup mysql{SELECT `destination` \
+                            FROM   `forwarding` \
+                            WHERE  `prefix`='${quote_mysql:$local_part}'\
+							AND    `domain`='${quote_mysql:$domain}'\
+							}}
+    allow_fail
+    allow_defer
